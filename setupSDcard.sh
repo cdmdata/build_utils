@@ -1,5 +1,6 @@
 #!/bin/sh
 DRIVE=$1
+for n in ${DRIVE}* ; do umount $n ; done
 echo "About to delete from $@....";
 read -r -p "Are you sure you? [Y/n] " response
 if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]] 
@@ -72,18 +73,18 @@ sudo mount ${DRIVE}4 /media/MEDIA
 echo "Drive Mount...Done";
 
 echo "Copy SYSTEM ...";
-sudo cp -ravf out/target/product/imx53_nitrogenk/system/* /media/SYSTEM/
-####sudo cp -ravf root/* /media/ROOT/
+sudo cp -ravf ../out/target/product/imx53_nitrogenk/system/* /media/SYSTEM/
+####sudo cp -ravf ../root/* /media/ROOT/
 echo "Copy DATA ...";
-sudo cp -ravf out/target/product/imx53_nitrogenk/data/* /media/DATA/
+sudo cp -ravf ../out/target/product/imx53_nitrogenk/data/* /media/DATA/
 echo "Copy RECOVERY ...";
-#sudo cp -ravf recovery/* /media/RECOVERY/
+#sudo cp -ravf ../recovery/* /media/RECOVERY/
 echo "Copy KERNEL ...";
-sudo cp kernel_imx/arch/arm/boot/uImage /media/BOOT/uImage53
+sudo cp ../kernel_imx/arch/arm/boot/uImage /media/BOOT/uImage53
 sudo mkdir /media/BOOT/lib/
 sudo mkdir /media/BOOT/lib/modules/
-sudo cp -ravf kernel_imx/drivers/media/video/mxc/capture/*.ko /media/BOOT/lib/modules/
-sudo cp -ravf kernel_imx/drivers/i2c/xrp6840.ko /media/BOOT/lib/modules/
+sudo cp -ravf ../kernel_imx/drivers/media/video/mxc/capture/*.ko /media/BOOT/lib/modules/
+sudo cp -ravf ../kernel_imx/drivers/i2c/xrp6840.ko /media/BOOT/lib/modules/
 
 #echo "Copy wireless drivers"
 #cd compat-wireless-2011-08-08
@@ -110,6 +111,7 @@ sudo umount /media/CACHE
 sudo umount /media/DATA
 sudo umount /media/RECOVERY
 sudo umount /media/MEDIA
+for n in ${DRIVE}* ; do umount $n ; done
 echo "Umount...Done"
 echo "Remove Folder..."
 sudo rm -rf /media/SYSTEM/*
