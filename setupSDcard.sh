@@ -94,7 +94,8 @@ sudo cp -ravf ../kernel_imx/drivers/i2c/xrp6840.ko /media/BOOT/lib/modules/
 #sudo cp -ravf ./net/wireless/cfg80211.ko /media/BOOT/lib/modules/
 #sudo cp -ravf ./compat/compat.ko /media/BOOT/lib/modules/
 #cd ..
-#echo "done"
+sudo sync
+echo "done"
 
 echo "set permissions"
 sudo chmod 777 -R /media/BOOT/
