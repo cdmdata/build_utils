@@ -78,7 +78,7 @@ sudo cp -ravf ../out/target/product/imx53_nitrogenk/system/* /media/SYSTEM/
 echo "Copy DATA ...";
 sudo cp -ravf ../out/target/product/imx53_nitrogenk/data/* /media/DATA/
 echo "Copy RECOVERY ...";
-#sudo cp -ravf ../recovery/* /media/RECOVERY/
+sudo cp -ravf ../out/target/product/imx53_nitrogenk/recovery/* /media/RECOVERY/
 echo "Copy KERNEL ...";
 sudo cp ../kernel_imx/arch/arm/boot/uImage /media/BOOT/uImage53
 sudo mkdir /media/BOOT/lib/
@@ -87,13 +87,12 @@ sudo cp -ravf ../kernel_imx/drivers/media/video/mxc/capture/*.ko /media/BOOT/lib
 sudo cp -ravf ../kernel_imx/drivers/i2c/xrp6840.ko /media/BOOT/lib/modules/
 
 #echo "Copy wireless drivers"
-#cd compat-wireless-2011-08-08
-#sudo cp -ravf ./drivers/net/wireless/wl12xx/wl12xx.ko /media/BOOT/lib/modules/
-#sudo cp -ravf ./drivers/net/wireless/wl12xx/wl12xx_sdio.ko /media/BOOT/lib/modules/
-#sudo cp -ravf ./net/mac80211/mac80211.ko /media/BOOT/lib/modules/
-#sudo cp -ravf ./net/wireless/cfg80211.ko /media/BOOT/lib/modules/
-#sudo cp -ravf ./compat/compat.ko /media/BOOT/lib/modules/
-#cd ..
+sudo cp -ravf ../compat-wireless-2011-08-08/drivers/net/wireless/wl12xx/wl12xx.ko /media/BOOT/lib/modules/
+sudo cp -ravf ../compat-wireless-2011-08-08/drivers/net/wireless/wl12xx/wl12xx_sdio.ko /media/BOOT/lib/modules/
+sudo cp -ravf ../compat-wireless-2011-08-08/net/mac80211/mac80211.ko /media/BOOT/lib/modules/
+sudo cp -ravf ../compat-wireless-2011-08-08/net/wireless/cfg80211.ko /media/BOOT/lib/modules/
+sudo cp -ravf ../compat-wireless-2011-08-08/compat/compat.ko /media/BOOT/lib/modules/
+cd ..
 sudo sync
 echo "done"
 
