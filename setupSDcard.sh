@@ -80,6 +80,10 @@ sudo cp -ravf ../out/target/product/imx53_nitrogenk/data/* /media/DATA/
 echo "Copy RECOVERY ...";
 sudo cp -ravf ../out/target/product/imx53_nitrogenk/recovery/* /media/RECOVERY/
 echo "Copy KERNEL ...";
+sudo mkimage -A arm -O linux -T ramdisk -n "Initial Ram Disk" -d ../out/target/product/imx53_nitrogenk/ramdisk.img ../out/target/product/imx53_nitrogenk/initrd.u-boot
+sudo cp ../out/target/product/imx53_nitrogenk/initrd.u-boot /media/BOOT
+sudo cp ../nitrogen53_bootscript /media/BOOT
+
 sudo cp ../kernel_imx/arch/arm/boot/uImage /media/BOOT/uImage53
 sudo mkdir /media/BOOT/lib/
 sudo mkdir /media/BOOT/lib/modules/
