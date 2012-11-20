@@ -40,7 +40,7 @@ if [ "$LOOPDEVICE" != "/dev/loop0" ]; then
 fi
 
 NOW=$(date +"%m-%d-%Y-%H%M%S")
-DEST=$IMAGEPATH/$NOW_$SIZE.img
+DEST=$IMAGEPATH/$NOW-$SIZE.img
 
 
 echo "MAKE SURE Android build/envsetup.sh has been run in this terminal and that you are running it from the root of the source tree!"
@@ -146,11 +146,12 @@ cd kernel_imx
 sudo mkdir /media/BOOT/lib
 sudo mkdir /media/BOOT/lib/modules
 sudo cp arch/arm/boot/uImage /media/BOOT/uImage53
-sudo cp -ravf drivers/media/video/mxc/capture/*.ko /media/BOOT/lib/modules/
-sudo cp -ravf drivers/i2c/xrp6840.ko /media/BOOT/lib/modules/
-sudo cp  bootable/bootloader/uboot-imx/board/boundary/nitrogen53/nitrogen53_bootscript_hdmi /media/BOOT/nitrogen53_bootscript
+sudo cp -rvf drivers/media/video/mxc/capture/*.ko /media/BOOT/lib/modules/
+sudo cp -rvf drivers/i2c/xrp6840.ko /media/BOOT/lib/modules/
 
 croot
+sudo cp -v bootable/bootloader/uboot-imx/board/boundary/nitrogen53/nitrogen53_bootscript_hdmi /media/BOOT/nitrogen53_bootscript
+
 cd out/target/product/imx53_nitrogenk
 sudo cp -ravf system/* /media/SYSTEM/
 sudo cp -ravf data/* /media/DATA/
