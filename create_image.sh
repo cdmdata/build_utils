@@ -82,11 +82,15 @@ l
 n
 l
 
-+400M
++50M
 n
 l
 
-+200M
++500M
+n
+l
+
++16M
 n
 p
 4
@@ -115,10 +119,11 @@ ls /dev/mapper/
 echo "Formating partitions..."
 sudo mkfs.vfat -n BOOT /dev/mapper/loop0p1
 sudo mkfs.ext4 -L SYSTEM /dev/mapper/loop0p2
-sudo mkfs.ext4 -L CACHE /dev/mapper/loop0p4
+sudo mkfs.vfat -F 32 -n MEDIA /dev/mapper/loop0p4
 sudo mkfs.ext4 -L DATA /dev/mapper/loop0p5
 sudo mkfs.vfat -n RECOVERY /dev/mapper/loop0p6
-sudo mkfs.vfat -F 32 -n MEDIA /dev/mapper/loop0p7
+sudo mkfs.ext4 -L CACHE /dev/mapper/loop0p7
+
 echo "Done"
 echo ""
 
@@ -127,15 +132,13 @@ sudo mkdir /media/BOOT
 sudo mkdir /media/SYSTEM
 sudo mkdir /media/CACHE
 sudo mkdir /media/DATA
-sudo mkdir /media/RECOVERY
 sudo mkdir /media/MEDIA
 
 sudo mount /dev/mapper/loop0p1 /media/BOOT
 sudo mount /dev/mapper/loop0p2 /media/SYSTEM
-sudo mount /dev/mapper/loop0p4 /media/CACHE
 sudo mount /dev/mapper/loop0p5 /media/DATA
-sudo mount /dev/mapper/loop0p6 /media/RECOVERY
-sudo mount /dev/mapper/loop0p7 /media/MEDIA
+sudo mount /dev/mapper/loop0p7 /media/CACHE
+sudo mount /dev/mapper/loop0p4 /media/MEDIA
 echo "Done"
 echo ""
 
@@ -150,15 +153,22 @@ sudo cp -rvf drivers/media/video/mxc/capture/*.ko /media/BOOT/lib/modules/
 sudo cp -rvf drivers/i2c/xrp6840.ko /media/BOOT/lib/modules/
 
 croot
-sudo cp -v bootable/bootloader/uboot-imx/board/boundary/nitrogen53/nitrogen53_bootscript_hdmi /media/BOOT/nitrogen53_bootscript
+sudo cp -v bootable/bootloader/uboot-imx/board/boundary/nitrogen53/nitrogen53_bootscript_hdmi_recovery_partition /media/BOOT/nitrogen53_bootscript
 
 cd out/target/product/imx53_nitrogenk
 sudo cp -ravf system/* /media/SYSTEM/
 sudo cp -ravf data/* /media/DATA/
-sudo cp  recovery/* /media/RECOVERY/
 
 mkimage -A arm -O linux -T ramdisk -n "Initial Ram Disk" -d ramdisk.img initrd.u-boot
 sudo cp initrd.u-boot /media/BOOT/
+
+#make recovery ramdisk
+cp system/bin/busybox recovery/root/system/bin
+cd recovery/root/
+find . -print |cpio -H newc -o |gzip -9 > ../../recovery.ramdisk.cpio.gz
+mkimage -A arm -O linux -T ramdisk -n "Recovery Ram Disk" -d ../../recovery.ramdisk.cpio.gz ../../initrd_recovery.u-boot
+cd ../..
+sudo cp initrd_recovery.u-boot /media/BOOT/
 
 croot
 sudo cp ../compat-wireless-2011-08-08/drivers/net/wireless/wl12xx/wl12xx.ko /media/BOOT/lib/modules/
@@ -185,14 +195,12 @@ sudo umount /media/BOOT
 sudo umount /media/SYSTEM
 sudo umount /media/CACHE
 sudo umount /media/DATA
-sudo umount /media/RECOVERY
 sudo umount /media/MEDIA
 
 sudo rmdir /media/BOOT 
 sudo rmdir /media/SYSTEM
 sudo rmdir /media/CACHE
 sudo rmdir /media/DATA
-sudo rmdir /media/RECOVERY
 sudo rmdir /media/MEDIA
 echo "Done"
 echo ""
