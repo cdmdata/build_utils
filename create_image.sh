@@ -151,6 +151,7 @@ sudo mkdir /media/BOOT/lib/modules
 sudo cp arch/arm/boot/uImage /media/BOOT/uImage53
 sudo cp -rvf drivers/media/video/mxc/capture/*.ko /media/BOOT/lib/modules/
 sudo cp -rvf drivers/i2c/xrp6840.ko /media/BOOT/lib/modules/
+sudo touch /media/BOOT/.bcb
 
 croot
 sudo cp -v bootable/bootloader/uboot-imx/board/boundary/nitrogen53/nitrogen53_bootscript_hdmi_recovery_partition /media/BOOT/nitrogen53_bootscript
