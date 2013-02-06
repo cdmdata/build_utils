@@ -1,4 +1,4 @@
-#!/bin/sh
+
 SIZE=$1
 IMAGEPATH=$2
 
@@ -63,7 +63,7 @@ n
 p
 1
 1
-+225M
++24M
 
 n
 p
