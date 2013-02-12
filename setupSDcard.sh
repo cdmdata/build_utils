@@ -59,7 +59,11 @@ EOF
 echo "Creating New partitions...Done";
 echo "Formating partitions...";
 
-sudo mkfs.ext4 -L CACHE ${DRIVE}5
+sudo mkfs.vfat -n BOOT ${DRIVE}1
+sudo mkfs.ext4 -L SYSTEM ${DRIVE}2
+sudo mkfs.ext4 -L DATA ${DRIVE}5
+sudo mkfs.ext4 -L RECOVERY ${DRIVE}6
+sudo mkfs.ext4 -L CACHE ${DRIVE}7
 sudo mkfs.vfat -F 32 -n MEDIA ${DRIVE}4
 
 echo "Reimaging partitions...";
@@ -74,6 +78,8 @@ sudo dd if=$IMAGE_FILE of=${DRIVE}2 bs=4096
 echo "Restoring userdata...";
 IMAGE_FILE=${SOURCEDIR}/userdata.img
 sudo dd if=$IMAGE_FILE of=${DRIVE}5 bs=4096
+
+sync
 fi
 
 
